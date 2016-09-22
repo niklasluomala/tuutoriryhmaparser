@@ -18,7 +18,8 @@ namespace FuksiryhmäParser
             // guild, tutors and student identification is based on indentation
             // first "level" is guild, second is tutors and third is student
             // see tuutoriryhmät.txt
-            string js = @"import { fromJS } from 'immutable';
+
+            string jsstart = @"import { fromJS } from 'immutable';
 
 const initialState = {
 'active':'',
@@ -89,7 +90,7 @@ const initialState = {
 export const immutableState = fromJS(initialState);";
             fs.Close();
 
-            File.WriteAllText("state.js", js + json + jsend);
+            File.WriteAllText("state.js", jsstart + json + jsend);
         }
     }
 
@@ -97,6 +98,7 @@ export const immutableState = fromJS(initialState);";
     {
         public string guild;
         public List<Group> groups;
+
         public Guild(string guild)
         {
             this.guild = guild;
@@ -125,66 +127,4 @@ export const immutableState = fromJS(initialState);";
             this.name = name;
         }
     }
-
-    /*
-            var html = "";
-            using (WebClient wc = new WebClient())
-            {
-                try {
-                    wc.Encoding = Encoding.UTF8;
-                    html = wc.DownloadString("http://www.asteriski.fi/pilttisivut/tuutoriryhm%C3%A4t");
-                } catch (Exception e)
-                {
-                    Console.WriteLine("Something went wrong.");
-                    Console.WriteLine(e.Message);
-                }
-            }
-            var split = html.Split(new string[] { "\n" }, StringSplitOptions.RemoveEmptyEntries);
-            if (html == null)
-            {
-                Console.WriteLine("Website returned no string, stopping.");
-            }
-
-            List<Fuksiryhmä> fuksiryhmät = new List<Fuksiryhmä>();
-            Fuksiryhmä ryhmä = null;
-            for (int row = 0; row < split.Length; row++)
-            {
-                if (split[row].Contains("<li>"))
-                {
-                    List<string> fuksit = new List<string>();
-
-                    int pFrom = split[row].IndexOf("<li>") + "<li>".Length;
-                    int pTo = split[row].LastIndexOf("</li>");
-
-                    string fuksistringi = split[row].Substring(pFrom, pTo - pFrom);
-                    var fuksiarray = fuksistringi.Split(new string[] { "</li><li>" }, StringSplitOptions.RemoveEmptyEntries);
-
-                    foreach (var fuksi in fuksiarray)
-                    {
-                        var nimet = fuksi.Split(' ');
-                        var fuksinnimi = nimet[1] + ' ' + nimet[0];
-                        ryhmä.addFuksi(fuksinnimi);
-                    }
-
-                    fuksiryhmät.Add(ryhmä);
-                }
-
-                if (split[row].Contains("<p>"))
-                {
-                    int pFrom = split[row].IndexOf("<p>") + "<p>".Length;
-                    int pTo = split[row].IndexOf("</p>");
-
-                    string tuutorit = split[row].Substring(pFrom, pTo - pFrom);
-                    ryhmä = new Fuksiryhmä(tuutorit);
-                }
-
-            }
-            
-
-            var arrayryhmät = fuksiryhmät.ToArray();
-            var json = JsonConvert.SerializeObject(arrayryhmät);
-            var fs = File.Create("asteriski.json");
-            fs.Close();
-            File.WriteAllText("asteriski.json", json);
-            */
 }
